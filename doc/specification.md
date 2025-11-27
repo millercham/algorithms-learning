@@ -13,7 +13,6 @@
 * AtCoder 初心者
 * 数学が得意ではないが、視覚で理解したい人
 * “動きで理解できないと頭に入らない” タイプ
-* お前自身
 
 ---
 
@@ -55,8 +54,6 @@ UI はあくまで「最小限の補助」。
 * 直感的な配列アニメ、ステップ移動、色変化が容易
 * 非常に軽量
 
-動くアルゴリズムには必要十分。
-
 ---
 
 ## ■ 数式
@@ -73,14 +70,7 @@ UI はあくまで「最小限の補助」。
 
 ---
 
-## ■ 状態管理
-
-不要。
-Playground ページ単体で完結する局所的な状態だけ。
-
----
-
-# 3. **ディレクトリ構成（C#排除版 / 完成）**
+# 3. **ディレクトリ構成**
 
 ```
 math-algorithms-visualized/
@@ -167,13 +157,11 @@ Motion One を使って以下をアニメーション化：
 ## **4. Code（TypeScript）**
 
 * TS の実装のみ
-* 10〜20行程度に削る
 * コメント最小限
-* C# は不要なので非掲載
 
 ---
 
-## **5. Math（補足の折り畳み）**
+## **5. Math**
 
 数学は以下だけに絞る：
 
@@ -182,18 +170,9 @@ Motion One を使って以下をアニメーション化：
 * 約数の個数の性質
 * 前処理の意味（累積和）
 
-**全部 `<details>` で折り畳み**。
-主役はあくまでアルゴリズム。
-
 ---
 
-## **6. Playground へのリンク**
-
-Playground は「実際に触る」場所。
-
----
-
-# 5. **Playground の仕様**
+# **6.Playground の仕様**
 
 例：素因数分解 (factor-tree)
 
@@ -212,11 +191,10 @@ Playground は「実際に触る」場所。
 * ノードは TSX で描画
 * Motion One の `animate` を逐次適用
 
-Playground は完全に TS(X) で完結させる（React 必須ではない）。
 
 ---
 
-# 6. **デザイン仕様**
+# **7.デザイン仕様**
 
 * **Tailwind neutral + blue**
 * **コードは暗色テーマ**
@@ -228,7 +206,7 @@ Playground は完全に TS(X) で完結させる（React 必須ではない）�
 
 ---
 
-# 7. **実装順序（MVP）**
+# **8.実装順序（MVP）**
 
 お前の習熟と負担を最適化したルートがこれ：
 
@@ -238,20 +216,6 @@ Playground は完全に TS(X) で完結させる（React 必須ではない）�
 2. divisor-enumeration（数学とアルゴリズムの橋渡し）
 3. prime-check
 4. prime-factorization（試し割り版）
-
-これだけで“サイトとしての形”が出る。
-
----
-
-# 8. **最重要ポイント（誤差ゼロで明示する）**
-
-* **アルゴリズムが主役**
-* 数学は“補足”として折り畳みへ
-* C# は一切載せない
-* React は“必要な時だけ TSX を小さく使う”
-* アニメーションは Motion One
-* ページ構造はすべて統一する
-* Playground は別ディレクトリで独立
 
 ---
 
@@ -274,14 +238,14 @@ Astro の基本思想：
 
 ### レイヤ構造イメージ
 
-**[Static Layer]**   ← 90% 以上を Astro / Markdown で構成
+**[Static Layer]** 
 
 - ページ本文
 - 図解（静的 SVG）
 - 数学補足（KaTeX）
 - コード表示（Prism）
 
-**[Interactive Layer (Islands)]**  ← 最小限だけ TSX / Motion One
+**[Interactive Layer (Islands)]**
 
 - `ArrayVisualizer`
 - `StepController`
@@ -289,10 +253,8 @@ Astro の基本思想：
 - `FactorTree`
 - `PrefixSumPlayground` など
 
-動く部分だけ TSX、その他はすべて Astro / Markdown。  
-これが「最軽量で壊れにくい」構造。
 
-## 9.2 ディレクトリ構造（アーキテクチャに基づいた正解）
+## 9.2 ディレクトリ構造
 
 ```text
 src/
@@ -334,7 +296,7 @@ src/
     global.css
 ```
 
-## 9.3 レイヤー構造（迷わないための整理）
+## 9.3 レイヤー構造
 
 ### 🧱 Layer 1: Static Presentation（静的表示）
 
@@ -343,8 +305,6 @@ src/
 - 図解（SVG）
 - コードハイライト（Prism）
 
-「読む部分」はすべてここに置く。  
-ビルド時に HTML へ展開され、Vercel CDN の効果が最大になる。
 
 ### 🧠 Layer 2: Algorithm Logic（純 TypeScript）
 
@@ -444,7 +404,6 @@ animate(element, { backgroundColor: "yellow" });
   - `divisor.ts`
   - `sieve.ts`
 
-役割が明確に分かれたアーキテクチャが、最も壊れにくい。
 
 ## 9.7 このアーキテクチャのメリット
 
@@ -456,5 +415,3 @@ animate(element, { backgroundColor: "yellow" });
 - 新しいアルゴリズムページを簡単に追加できる
 - 「読む部分」は Astro が強みを発揮し、  
   「動く部分」は最小の TSX で完結する
-
-つまり、**学習サイトとして破綻しない設計** が保証される。
