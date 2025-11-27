@@ -1,0 +1,130 @@
+## プロジェクト共通ルール
+
+- **プロジェクト名**: Astro アルゴリズム可視化サイト
+- **目的**: 「アルゴリズムの動きを視覚で理解できる」学習サイトを Astro + TypeScript で作る
+- **ドキュメント言語**: 日本語で統一（コメント・仕様書・テンプレも含む）
+- **参考ドキュメント**:
+  - `doc/specification.md`
+  - `.specify/memory/constitution.md`（プロジェクト憲法）
+
+## AI アシスタントへの基本方針
+
+- 回答は **必ず日本語**。
+- コード例は **TypeScript のみ**（C# を含む他言語は出さない）。
+- 新しいライブラリやフレームワークを提案する前に、  
+  憲法の「依存関係の最小化」「軽量な技術スタック」の原則に照らして妥当かを検討する。
+- 設計や実装案を出すときは、まず既存の `doc/仕様書.md` と 憲法 を読んで矛盾しないようにする。
+
+## 技術スタックと制約
+
+- **フロントエンド / SSG**: Astro
+- **言語**: TypeScript（ES2020+）
+- **UI**: TailwindCSS, Headless UI（必要最小限のコンポーネントのみ）
+- **アニメーション**: Motion One
+- **数式**: KaTeX
+- **コードハイライト**: Prism.js
+- **状態管理**: グローバルな状態管理ライブラリは使わない。Playground 単位のローカル state のみ。
+
+## ディレクトリ / ページ構造ルール
+
+- 想定ルート構成（実装時は plan/spec に合わせて調整する）:
+
+```text
+src/
+├── pages/
+│   ├── index.astro
+│   ├── algorithms/        # アルゴリズムごとのページ
+│   ├── concepts/          # 数学の補足 (Markdown など)
+│   └── playground/        # Playground（インタラクティブ）
+├── components/            # 共通コンポーネント
+└── styles/
+    └── global.css
+```
+
+- `src/pages/algorithms/*.astro` は、必ず次の順番のセクションを持つ:
+  1. Introduction
+  2. Visualization（Motion One）
+  3. Algorithm Flow（`AlgorithmStep`）
+  4. Code（TypeScript / 10〜20 行）
+  5. Math（`<details>` で折り畳み）
+  6. Playground へのリンク
+
+- Playground は `src/pages/playground/[name]/` 以下にまとめ、
+  各ディレクトリ内で完結するように実装する（Playground 同士の直接依存は禁止）。
+
+## コーディングスタイル
+
+- TypeScript:
+  - 可能なら `strict` なコンパイルオプションを前提に型を付ける。
+  - any 多用禁止。必要な場合は コメントで意図を書く。
+  - 1 ファイルは責務を絞る（可視化ロジック、アルゴリズム本体、UI を分離するイメージ）。
+- コンポーネント:
+  - 可視化 UI とアルゴリズムロジックを極力分離する。
+  - React/TSX を使うときは「最小のインタラクション単位」に閉じる。
+
+## ドキュメントとテンプレまわり
+
+- `.specify/templates/*.md` はすべて日本語で書く（既に日本語化済みの前提）。
+- 新しいテンプレートやコマンド説明を追加する場合も、日本語で統一する。
+- 憲法を変更した場合は:
+  1. 憲法のバージョンを更新
+  2. `.specify/templates/*` と `.cursorrules` に矛盾がないか確認
+  3. コミットメッセージは `docs: amend constitution to vX.Y.Z (...)` 形式をベースにする
+
+## コミットメッセージルール
+
+- **基本フォーマット（1行目）**  
+  `type(scope?): summary`
+  - `type`: 下記のいずれか（必須）
+  - `scope`: 変更対象のざっくりした範囲（任意・英小文字ケバブ推奨）  
+    - 例: `algo-list`, `playground-bfs`, `layout`, `docs`, `build` など
+  - `summary`: 変更内容を **日本語で簡潔に**（末尾の句読点なし）
+
+- **本文（任意）**
+  - 2行目以降に「なぜ」「どのように」を日本語で補足してよい
+  - 1行は 72〜100 文字程度を目安にする
+
+- **フッター（任意）**
+  - Breaking Change や issue 関連を書く
+    - 例: `BREAKING CHANGE: playground URL を変更`
+    - 例: `Closes #12`
+
+### type 一覧と使い分け
+
+- **feat**: 新しい機能・画面・可視化を追加したとき  
+  - 例: `feat(algorithms-bfs): BFS の可視化セクションを追加`
+- **fix**: バグ修正・期待と異なる挙動の修正  
+  - 例: `fix(playground-sort): 配列が空のときにクラッシュする問題を修正`
+- **docs**: ドキュメント・仕様書・コメントのみの変更  
+  - 例: `docs(spec): アルゴリズム一覧の章を追加`
+- **style**: 見た目やフォーマットのみ（動作仕様は変わらない）  
+  - 例: `style(layout): ヒーローセクションの余白を調整`
+- **refactor**: 外部仕様を変えずに内部構造を整理・リファクタ  
+  - 例: `refactor(visualizer): ソート処理と描画ロジックを分離`
+- **perf**: パフォーマンス改善  
+  - 例: `perf(playground-sort): アニメーションの再描画回数を削減`
+- **test**: テストコードの追加・修正（本体ロジックは基本含めない）  
+  - 例: `test(algorithms-bfs): キューの初期状態テストを追加`
+- **build**: ビルド設定・依存関係・Astro/Tailwind 設定の変更  
+  - 例: `build(astro): 画像最適化プラグインの設定を追加`
+- **ci**: CI 設定の変更  
+  - 例: `ci: Node.js バージョンマトリクスを更新`
+- **chore**: プロジェクト運用上の雑多な変更（仕様変更を伴わないもの）  
+  - 例: `chore: .cursorrules を更新`
+  - 例: `chore: 依存パッケージを minor バージョンアップ`
+- **revert**: 以前のコミットを巻き戻すとき  
+  - 例: `revert: feat(playground-bfs) を取り消し`
+
+### 運用ポリシー
+
+- **1コミット1トピック**
+  - 機能追加とリファクタは可能な限り別コミットに分ける
+- **日本語で目的が分かる summary**
+  - NG: `feat: update`
+  - OK: `feat(playground-sort): ステップ実行ボタンを追加`
+- **Breaking Change がある場合は明示**
+  - 1行目に `!` を付けてもよい:  
+    - 例: `feat(playground-sort)!: ステップ実行 API を変更`
+  - かつフッターに `BREAKING CHANGE:` で詳細を書く
+
+

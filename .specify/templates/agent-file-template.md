@@ -1,0 +1,31 @@
+# [PROJECT NAME] 開発ガイドライン (Development Guidelines)
+
+全機能の plan.md から自動生成される。最終更新日: [DATE]
+
+## 使用技術 (Active Technologies)
+
+[すべての plan.md から抽出された「実際に使っている技術」の一覧]
+
+## プロジェクト構造 (Project Structure)
+
+```text
+[plan.md に基づく実際のディレクトリ構造]
+```
+
+## コマンド (Commands)
+
+[実際に使用している技術に対して有効なコマンドのみを列挙する]
+
+## コードスタイル (Code Style)
+
+[利用中の言語に対するスタイルガイドのみを記載する]
+
+## 最近の変更 (Recent Changes)
+
+[直近の 3 つの機能と、それぞれが追加・変更した内容の要約]
+
+<!-- MANUAL ADDITIONS START -->
+<!-- ここから下は手動で追記する領域。自動生成では上書きしないこと。 -->
+<!-- MANUAL ADDITIONS END -->
+
+
