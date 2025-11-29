@@ -202,7 +202,7 @@ Playgroundページにアクセスし、配列と目標値を入力して探索�
 
 - Astro プロジェクトがセットアップ済みであること
 - TailwindCSS が利用可能であること
-- Motion One（React版）がインストールされていること
+- Motion One（vanilla API）がインストールされていること
 
 ### 依存関係
 
