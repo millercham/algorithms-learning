@@ -1,0 +1,166 @@
+---
+import Layout from "../../../components/Layout.astro";
+
+const title = "線形探索 Playground";
+const description = "自分で配列と目標値を入力して、線形探索の動作を確認できます。";
+---
+
+<Layout title={title} description={description}>
+  <div class="container mx-auto px-4 py-8 max-w-4xl">
+    <!-- ヘッダー -->
+    <div class="mb-8">
+      <a
+        href="/algorithms/linear-search"
+        class="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 transition-colors mb-4"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m15 18-6-6 6-6"></path>
+        </svg>
+        解説ページに戻る
+      </a>
+      <h1 class="text-3xl font-bold text-neutral-800">{title}</h1>
+      <p class="text-neutral-600 mt-2">
+        配列と目標値を入力して、線形探索の動作を確認しましょう。
+      </p>
+    </div>
+
+    <!-- 入力フォーム -->
+    <div class="bg-white border border-neutral-200 rounded-xl p-6 mb-8 shadow-sm">
+      <h2 class="text-lg font-semibold text-neutral-800 mb-4">データ入力</h2>
+
+      <div class="space-y-4">
+        <div>
+          <label for="array-input" class="block text-sm font-medium text-neutral-700 mb-2">
+            配列 <span class="text-neutral-500 font-normal">（カンマ区切り、最大15要素）</span>
+          </label>
+          <input
+            type="text"
+            id="array-input"
+            placeholder="例: 23, 45, 12, 78, 34, 56, 89"
+            class="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent font-mono"
+          />
+        </div>
+
+        <div>
+          <label for="target-input" class="block text-sm font-medium text-neutral-700 mb-2">
+            目標値
+          </label>
+          <input
+            type="number"
+            id="target-input"
+            placeholder="例: 34"
+            class="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent font-mono"
+          />
+        </div>
+
+        <div id="error-message" class="hidden p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
+        </div>
+
+        <button
+          id="btn-start"
+          class="w-full px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors"
+        >
+          探索を開始
+        </button>
+      </div>
+    </div>
+
+    <!-- 可視化エリア -->
+    <div id="visualization-area" class="hidden space-y-6">
+      <!-- 目標値表示 -->
+      <div class="flex items-center justify-between p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-200">
+        <p class="text-xl text-blue-600">目標値: <span id="target-value" class="font-bold">0</span></p>
+      </div>
+
+      <!-- 配列表示 -->
+      <div class="p-6 bg-white rounded-xl border-2 border-neutral-200 shadow-sm">
+        <div id="array-container" class="flex flex-wrap gap-3 justify-center items-end min-h-[120px]">
+        </div>
+      </div>
+
+      <!-- ステップコントローラ -->
+      <div class="bg-white border border-neutral-200 rounded-lg p-4">
+        <div class="flex items-center justify-between mb-4">
+          <span class="text-neutral-600">
+            ステップ: <span id="current-step" class="text-blue-600 font-semibold">0</span> / <span id="total-steps">0</span>
+          </span>
+          <div class="flex gap-2">
+            <button
+              id="btn-reset"
+              disabled
+              class="px-3 py-2 bg-neutral-100 hover:bg-neutral-200 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg transition-colors text-sm"
+            >
+              リセット
+            </button>
+            <button
+              id="btn-prev"
+              disabled
+              class="px-3 py-2 bg-neutral-100 hover:bg-neutral-200 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg transition-colors text-sm"
+            >
+              前へ
+            </button>
+            <button
+              id="btn-play"
+              class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white disabled:opacity-50 disabled:cursor-not-allowed rounded-lg transition-colors flex items-center gap-2 text-sm"
+            >
+              <svg id="icon-play" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+              </svg>
+              <svg id="icon-pause" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="6" y="4" width="4" height="16"></rect>
+                <rect x="14" y="4" width="4" height="16"></rect>
+              </svg>
+              <span id="btn-play-text">再生</span>
+            </button>
+            <button
+              id="btn-next"
+              class="px-3 py-2 bg-neutral-100 hover:bg-neutral-200 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg transition-colors text-sm"
+            >
+              次へ
+            </button>
+          </div>
+        </div>
+
+        <div class="relative w-full h-2 bg-neutral-200 rounded-full overflow-hidden">
+          <div
+            id="progress-fill"
+            class="absolute left-0 top-0 h-full bg-blue-600 transition-all duration-300"
+            style="width: 0%"
+          ></div>
+        </div>
+      </div>
+
+      <!-- ステップ情報 -->
+      <div id="step-info" class="hidden p-4 bg-white rounded-lg border border-blue-200">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm text-neutral-500">現在のステップ</p>
+            <p class="text-neutral-800">
+              インデックス <span id="info-index" class="text-blue-600 font-mono font-semibold">0</span> を確認中
+            </p>
+            <p class="text-neutral-600 mt-1">
+              値 = <span id="info-value" class="font-mono">0</span>
+            </p>
+          </div>
+          <div id="info-result" class="px-4 py-2 bg-neutral-100 text-neutral-600 rounded-lg">
+            不一致
+          </div>
+        </div>
+      </div>
+
+      <!-- 結果メッセージ -->
+      <div id="result-message" class="hidden p-4 rounded-lg border-2">
+        <p id="result-text" class="text-lg"></p>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<script>
+  import { init } from '../../../scripts/playground-controller';
+
+  document.addEventListener('DOMContentLoaded', () => {
+    init();
+  });
+</script>
+

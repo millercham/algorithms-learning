@@ -58,6 +58,6 @@
 - [x] `/speckit.plan` で技術計画の策定（完了）
 - [x] `/speckit.tasks` でタスク分解（完了）
 - [x] `/speckit.analyze` で整合性分析（完了）
-- [ ] `/speckit.implement` で実装（進行中）
+- [x] `/speckit.implement` で実装（完了）
 
 
