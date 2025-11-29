@@ -1,3 +1,4 @@
+import preact from "@astrojs/preact";
 import tailwind from "@astrojs/tailwind";
 // @ts-check
 import { defineConfig } from "astro/config";
@@ -8,5 +9,6 @@ export default defineConfig({
 		tailwind({
 			applyBaseStyles: false,
 		}),
+		preact(),
 	],
 });

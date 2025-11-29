@@ -1,13 +1,7 @@
 ---
-import ArrayVisualizer from "../../components/ArrayVisualizer.astro";
 import Layout from "../../components/Layout.astro";
-import StepController from "../../components/StepController.astro";
+import { LinearSearchVisualizer } from "../../components/visualizer";
 
-// 初期データ
-const initialArray = [23, 45, 12, 78, 34, 56, 89, 23, 67];
-const initialTarget = 34;
-
-// ページ情報
 const title = "線形探索 (Linear Search)";
 const description =
 	"配列の先頭から順番に目標値を探すシンプルなアルゴリズムを視覚的に学べます。";
@@ -36,12 +30,7 @@ const description =
     <!-- Visualization -->
     <section id="visualization" class="mb-12">
       <h2 class="text-2xl font-bold text-neutral-800 mb-6">可視化</h2>
-
-      <ArrayVisualizer array={initialArray} target={initialTarget} />
-
-      <div class="mt-8">
-        <StepController totalSteps={initialArray.length} />
-      </div>
+      <LinearSearchVisualizer client:load />
     </section>
 
     <!-- Algorithm Flow -->
@@ -115,47 +104,98 @@ const description =
         <summary class="cursor-pointer p-4 font-semibold text-neutral-800 hover:bg-neutral-100 transition-colors">
           計算量と特性を見る
         </summary>
-        <div class="p-6 border-t border-neutral-200 space-y-4">
+        <div class="p-6 border-t border-neutral-200 space-y-6">
           <div>
-            <h3 class="font-semibold text-neutral-800 mb-2">時間計算量</h3>
-            <ul class="space-y-1 text-neutral-600">
+            <h3 class="font-semibold text-neutral-800 mb-3">時間計算量</h3>
+            <ul class="space-y-2 text-neutral-600">
               <li>• <strong>最良ケース</strong>: O(1) — 目標値が配列の先頭にある場合</li>
               <li>• <strong>最悪ケース</strong>: O(n) — 目標値が配列の末尾または存在しない場合</li>
               <li>• <strong>平均ケース</strong>: O(n/2) ≈ O(n)</li>
             </ul>
+            <div class="mt-4 p-4 bg-white rounded-lg border border-neutral-200">
+              <p class="text-sm text-neutral-600">
+                <strong>なぜ O(n) なのか？</strong><br/>
+                最悪の場合、配列の全要素 n 個をチェックする必要があるため、
+                実行時間は配列のサイズに比例して増加します。
+              </p>
+            </div>
           </div>
 
           <div>
-            <h3 class="font-semibold text-neutral-800 mb-2">空間計算量</h3>
-            <p class="text-neutral-600">O(1) — 追加のメモリは不要</p>
+            <h3 class="font-semibold text-neutral-800 mb-3">空間計算量</h3>
+            <p class="text-neutral-600">O(1) — 追加のメモリは不要（インデックス変数のみ使用）</p>
           </div>
 
           <div>
-            <h3 class="font-semibold text-neutral-800 mb-2">特徴</h3>
+            <h3 class="font-semibold text-neutral-800 mb-3">特徴</h3>
+            <ul class="space-y-2 text-neutral-600">
+              <li class="flex items-start gap-2">
+                <span class="text-green-600">✓</span>
+                <span><strong>ソート不要</strong>: 配列がソートされていなくても動作する</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-green-600">✓</span>
+                <span><strong>シンプル</strong>: 実装が簡単で理解しやすい</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-green-600">✓</span>
+                <span><strong>小規模に最適</strong>: 小さな配列では効率的</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-red-500">✗</span>
+                <span><strong>大規模に非効率</strong>: 大きな配列では二分探索より遅い</span>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 class="font-semibold text-neutral-800 mb-3">比較: 線形探索 vs 二分探索</h3>
+            <div class="overflow-x-auto">
+              <table class="w-full text-sm">
+                <thead>
+                  <tr class="border-b border-neutral-300">
+                    <th class="text-left p-2 text-neutral-700">項目</th>
+                    <th class="text-left p-2 text-neutral-700">線形探索</th>
+                    <th class="text-left p-2 text-neutral-700">二分探索</th>
+                  </tr>
+                </thead>
+                <tbody class="text-neutral-600">
+                  <tr class="border-b border-neutral-200">
+                    <td class="p-2">時間計算量</td>
+                    <td class="p-2 font-mono">O(n)</td>
+                    <td class="p-2 font-mono">O(log n)</td>
+                  </tr>
+                  <tr class="border-b border-neutral-200">
+                    <td class="p-2">ソート必要性</td>
+                    <td class="p-2">不要</td>
+                    <td class="p-2">必要</td>
+                  </tr>
+                  <tr class="border-b border-neutral-200">
+                    <td class="p-2">実装難易度</td>
+                    <td class="p-2">簡単</td>
+                    <td class="p-2">やや複雑</td>
+                  </tr>
+                  <tr>
+                    <td class="p-2">100万要素での比較回数</td>
+                    <td class="p-2 font-mono">最大 1,000,000 回</td>
+                    <td class="p-2 font-mono">最大 20 回</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div>
+            <h3 class="font-semibold text-neutral-800 mb-3">使用シーン</h3>
             <ul class="space-y-1 text-neutral-600">
-              <li>• ソートされていない配列でも動作する</li>
-              <li>• 実装がシンプルで理解しやすい</li>
-              <li>• 小さな配列では効率的</li>
-              <li>• 大きな配列では二分探索より遅い</li>
+              <li>• 配列のサイズが小さい場合（〜100要素程度）</li>
+              <li>• 配列がソートされていない場合</li>
+              <li>• 一度だけ検索する場合（ソートのコストが見合わない）</li>
+              <li>• リンクリストなど、ランダムアクセスができないデータ構造</li>
             </ul>
           </div>
         </div>
       </details>
     </section>
-
   </div>
 </Layout>
-
-<script>
-  import { init } from '../../scripts/linear-search-controller';
-
-  // 初期データ
-  const initialArray = [23, 45, 12, 78, 34, 56, 89, 23, 67];
-  const initialTarget = 34;
-
-  // ページロード時に初期化
-  document.addEventListener('DOMContentLoaded', () => {
-    init(initialArray, initialTarget);
-  });
-</script>
-
