@@ -2,16 +2,17 @@
 import Layout from "../components/Layout.astro";
 
 const title = "ホーム";
-const description = "アルゴリズムの動きを視覚で理解できる学習サイト。インタラクティブな可視化で探索、ソート、グラフアルゴリズムを学べます。";
+const description =
+	"アルゴリズムの動きを視覚で理解できる学習サイト。インタラクティブな可視化で探索、ソート、グラフアルゴリズムを学べます。";
 
 const algorithms = [
-  {
-    name: "線形探索",
-    description: "配列の先頭から順番に目標値を探すシンプルなアルゴリズム",
-    href: "/algorithms/linear-search",
-    category: "探索",
-    complexity: "O(n)",
-  },
+	{
+		name: "線形探索",
+		description: "配列の先頭から順番に目標値を探すシンプルなアルゴリズム",
+		href: "/algorithms/linear-search",
+		category: "探索",
+		complexity: "O(n)",
+	},
 ];
 ---
 
@@ -26,13 +27,6 @@ const algorithms = [
         抽象的なアルゴリズムの動きをインタラクティブな可視化で体験しましょう。
         ステップバイステップで、直感的に理解できます。
       </p>
-      <a
-        href="/algorithms/linear-search"
-        class="inline-block px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-all hover:shadow-lg hover:-translate-y-0.5"
-      >
-        線形探索から始める →
-      </a>
-    </div>
   </section>
 
   <!-- アルゴリズム一覧 -->
