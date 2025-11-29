@@ -15,7 +15,7 @@ const containerId = `math-${Math.random().toString(36).substring(7)}`;
 <script>
   // KaTeX がロードされたらレンダリング
   function renderMath() {
-    const elements = document.querySelectorAll('.math-formula[data-formula]');
+    const elements = document.querySelectorAll<HTMLElement>('.math-formula[data-formula]');
     elements.forEach((el) => {
       const formula = el.getAttribute('data-formula');
       const displayMode = el.getAttribute('data-display') === 'true';
