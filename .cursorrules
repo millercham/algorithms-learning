@@ -80,11 +80,10 @@ export function LinearSearchVisualizer() { ... }
 
 `src/pages/algorithms/*.astro` は以下の順番のセクションを持つ:
 
-1. **Introduction** - アルゴリズムの概要
+1. **Introduction** - 概要 + アルゴリズムの流れ（2カラムで統合）
 2. **ステップバイステップで理解する** - Preact Visualizer
-3. **アルゴリズムの流れ** - ステップ解説
-4. **コード** - TypeScript 実装（10〜20 行）
-5. **計算量と特性** - 時間/空間計算量、比較表
+3. **コード** - TypeScript 実装（10〜20 行）
+4. **計算量と特性** - 時間/空間計算量、特徴、比較表、使用シーン
 
 ## コーディングスタイル
 

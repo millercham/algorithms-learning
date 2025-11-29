@@ -12,18 +12,57 @@ const description =
     <!-- Introduction -->
     <section id="introduction" class="mb-12">
       <h1 class="text-4xl font-bold text-neutral-800 mb-4">{title}</h1>
-      <p class="text-xl text-neutral-600 mb-6">
+      <p class="text-xl text-neutral-600 mb-8">
         配列の先頭から順番に目標値を探すシンプルなアルゴリズム
       </p>
 
-      <div class="bg-blue-50 border border-blue-200 rounded-lg p-6">
-        <h2 class="text-lg font-semibold text-blue-800 mb-3">このアルゴリズムについて</h2>
-        <ul class="space-y-2 text-blue-700">
-          <li>• <strong>目的</strong>: 配列から目標値を見つける</li>
-          <li>• <strong>入力</strong>: 配列 [23, 45, 12, 78, 34, ...] と目標値 34</li>
-          <li>• <strong>出力</strong>: 見つかった位置（インデックス）または「見つからない」</li>
-          <li>• <strong>使用場面</strong>: 小さな配列やソートされていないデータの探索</li>
-        </ul>
+      <!-- 概要と流れを統合 -->
+      <div class="grid md:grid-cols-2 gap-6">
+        <!-- 左: 概要 -->
+        <div class="bg-blue-50 border border-blue-200 rounded-lg p-6">
+          <h2 class="text-lg font-semibold text-blue-800 mb-4">概要</h2>
+          <ul class="space-y-3 text-blue-700">
+            <li class="flex items-start gap-2">
+              <span class="text-blue-500 mt-1">▸</span>
+              <span><strong>目的</strong>: 配列から目標値を見つける</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-blue-500 mt-1">▸</span>
+              <span><strong>入力</strong>: 配列と目標値</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-blue-500 mt-1">▸</span>
+              <span><strong>出力</strong>: 見つかった位置 or「見つからない」</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-blue-500 mt-1">▸</span>
+              <span><strong>適用</strong>: 小さな配列、未ソートデータ</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- 右: 流れ -->
+        <div class="bg-neutral-50 border border-neutral-200 rounded-lg p-6">
+          <h2 class="text-lg font-semibold text-neutral-800 mb-4">アルゴリズムの流れ</h2>
+          <ol class="space-y-3 text-neutral-600">
+            <li class="flex items-start gap-3">
+              <span class="flex-shrink-0 w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-bold">1</span>
+              <span>配列の先頭（index 0）から開始</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="flex-shrink-0 w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-bold">2</span>
+              <span>現在の要素と目標値を比較</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="flex-shrink-0 w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-bold">3</span>
+              <span>一致しなければ次の要素へ移動</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="flex-shrink-0 w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-bold">4</span>
+              <span>発見 or 末尾到達で終了</span>
+            </li>
+          </ol>
+        </div>
       </div>
     </section>
 
@@ -31,53 +70,6 @@ const description =
     <section id="visualization" class="mb-12">
       <h2 class="text-2xl font-bold text-neutral-800 mb-6">ステップバイステップで理解する</h2>
       <LinearSearchVisualizer client:load />
-    </section>
-
-    <!-- Algorithm Flow -->
-    <section id="algorithm-flow" class="mb-12">
-      <h2 class="text-2xl font-bold text-neutral-800 mb-6">アルゴリズムの流れ</h2>
-
-      <div class="space-y-4">
-        <div class="flex items-start gap-4 p-4 bg-neutral-50 rounded-lg border border-neutral-200">
-          <div class="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">
-            1
-          </div>
-          <div>
-            <h3 class="font-semibold text-neutral-800">配列の先頭から開始</h3>
-            <p class="text-neutral-600">インデックス 0 の要素から探索を始めます。</p>
-          </div>
-        </div>
-
-        <div class="flex items-start gap-4 p-4 bg-neutral-50 rounded-lg border border-neutral-200">
-          <div class="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">
-            2
-          </div>
-          <div>
-            <h3 class="font-semibold text-neutral-800">現在の要素と目標値を比較</h3>
-            <p class="text-neutral-600">一致すれば探索成功、一致しなければ次のステップへ。</p>
-          </div>
-        </div>
-
-        <div class="flex items-start gap-4 p-4 bg-neutral-50 rounded-lg border border-neutral-200">
-          <div class="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">
-            3
-          </div>
-          <div>
-            <h3 class="font-semibold text-neutral-800">次の要素へ移動</h3>
-            <p class="text-neutral-600">インデックスを 1 増やして、次の要素をチェックします。</p>
-          </div>
-        </div>
-
-        <div class="flex items-start gap-4 p-4 bg-neutral-50 rounded-lg border border-neutral-200">
-          <div class="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">
-            4
-          </div>
-          <div>
-            <h3 class="font-semibold text-neutral-800">終了条件</h3>
-            <p class="text-neutral-600">目標値が見つかるか、配列の末尾に達したら終了します。</p>
-          </div>
-        </div>
-      </div>
     </section>
 
     <!-- Code -->
@@ -96,8 +88,8 @@ const description =
       </div>
     </section>
 
-    <!-- Math -->
-    <section id="math" class="mb-12">
+    <!-- Complexity -->
+    <section id="complexity" class="mb-12">
       <h2 class="text-2xl font-bold text-neutral-800 mb-6">計算量と特性</h2>
 
       <div class="bg-neutral-50 border border-neutral-200 rounded-lg p-6 space-y-6">
