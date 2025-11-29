@@ -1,5 +1,5 @@
-import { useState, useCallback, useRef, useEffect } from "preact/hooks";
-import type { Step, AlgorithmDefinition } from "../types/algorithm";
+import { useCallback, useEffect, useRef, useState } from "preact/hooks";
+import type { AlgorithmDefinition, Step } from "../types/algorithm";
 
 /** ステップコントローラーの状態 */
 export interface StepControllerState {
@@ -34,7 +34,8 @@ export interface StepControllerActions {
 }
 
 /** useStepController の戻り値 */
-export type UseStepControllerReturn = StepControllerState & StepControllerActions;
+export type UseStepControllerReturn = StepControllerState &
+	StepControllerActions;
 
 /**
  * ステップ制御のカスタムフック
@@ -43,11 +44,11 @@ export type UseStepControllerReturn = StepControllerState & StepControllerAction
  */
 export function useStepController<TData>(
 	algorithm: AlgorithmDefinition<TData>,
-	initialData?: TData
+	initialData?: TData,
 ): UseStepControllerReturn {
 	const data = initialData ?? algorithm.initialData;
 	const [steps, setSteps] = useState<Step[]>(() =>
-		algorithm.generateSteps(data)
+		algorithm.generateSteps(data),
 	);
 	const [currentStep, setCurrentStep] = useState(0);
 	const [isPlaying, setIsPlaying] = useState(false);
@@ -130,7 +131,7 @@ export function useStepController<TData>(
 			setSteps(newSteps);
 			setCurrentStep(0);
 		},
-		[algorithm, stopPlayback]
+		[algorithm, stopPlayback],
 	);
 
 	// 再生速度変更時に再生中なら再開
@@ -172,4 +173,3 @@ export function useStepController<TData>(
 		updateData,
 	};
 }
-

@@ -18,39 +18,73 @@
 ## 技術スタックと制約
 
 - **フロントエンド / SSG**: Astro
+- **インタラクティブ UI**: Preact（Astro Islands）
 - **言語**: TypeScript（ES2020+）
-- **UI**: TailwindCSS, Headless UI（必要最小限のコンポーネントのみ）
-- **アニメーション**: Motion One
+- **UI**: TailwindCSS
+- **アニメーション**: CSS Transitions + Web Animations API
 - **数式**: KaTeX
-- **コードハイライト**: Prism.js
-- **状態管理**: グローバルな状態管理ライブラリは使わない。Playground 単位のローカル state のみ。
+- **状態管理**: `useStepController` Hook でローカル管理
 
-## ディレクトリ / ページ構造ルール
+## アーキテクチャ（Preact Islands）
 
-- 想定ルート構成（実装時は plan/spec に合わせて調整する）:
+**重要**: 詳細は `doc/architecture.md` を参照。
+
+### ディレクトリ構成
 
 ```text
 src/
+├── types/
+│   └── algorithm.ts           # 共通型定義
+├── algorithms/
+│   ├── index.ts               # アルゴリズム登録
+│   └── [algorithm-name].ts    # アルゴリズム定義
+├── hooks/
+│   └── useStepController.ts   # ステップ制御 Hook
+├── components/
+│   ├── Layout.astro
+│   └── visualizer/            # Preact コンポーネント
+│       ├── ArrayVisualizer.tsx
+│       ├── StepController.tsx
+│       └── [Algorithm]Visualizer.tsx
 ├── pages/
 │   ├── index.astro
-│   ├── algorithms/        # アルゴリズムごとのページ
-│   ├── concepts/          # 数学の補足 (Markdown など)
-│   └── playground/        # Playground（インタラクティブ）
-├── components/            # 共通コンポーネント
+│   └── algorithms/
+│       └── [algorithm-name].astro
 └── styles/
     └── global.css
 ```
 
-- `src/pages/algorithms/*.astro` は、必ず次の順番のセクションを持つ:
-  1. Introduction
-  2. Visualization（Motion One）
-  3. Algorithm Flow（`AlgorithmStep`）
-  4. Code（TypeScript / 10〜20 行）
-  5. Math（`<details>` で折り畳み）
-  6. Playground へのリンク
+### 新規アルゴリズム追加手順
 
-- Playground は `src/pages/playground/[name]/` 以下にまとめ、
-  各ディレクトリ内で完結するように実装する（Playground 同士の直接依存は禁止）。
+1. `src/algorithms/[name].ts` にアルゴリズム定義を作成
+2. `src/algorithms/index.ts` に登録
+3. `src/components/visualizer/[Name]Visualizer.tsx` を作成
+4. `src/components/visualizer/index.ts` にエクスポート追加
+5. `src/pages/algorithms/[name].astro` でページ作成
+
+### Astro Islands の制約
+
+- **関数を含むオブジェクトは Astro → Preact に渡せない**
+- 各アルゴリズムに専用 Visualizer を作成し、内部でインポートする
+
+```tsx
+// ✅ OK: Preact 内で直接インポート
+import { linearSearch } from "../../algorithms/linear-search";
+export function LinearSearchVisualizer() { ... }
+
+// ❌ NG: Astro から関数を含むオブジェクトを渡す
+<AlgorithmVisualizer client:load algorithm={algorithm} />
+```
+
+## ページ構造ルール
+
+`src/pages/algorithms/*.astro` は以下の順番のセクションを持つ:
+
+1. **Introduction** - アルゴリズムの概要
+2. **ステップバイステップで理解する** - Preact Visualizer
+3. **アルゴリズムの流れ** - ステップ解説
+4. **コード** - TypeScript 実装（10〜20 行）
+5. **計算量と特性** - 時間/空間計算量、比較表
 
 ## コーディングスタイル
 
