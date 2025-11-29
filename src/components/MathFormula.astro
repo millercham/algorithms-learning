@@ -1,0 +1,42 @@
+---
+interface Props {
+	formula: string;
+	displayMode?: boolean;
+}
+
+const { formula, displayMode = false } = Astro.props;
+
+// KaTeX は CDN から読み込むため、クライアントサイドでレンダリング
+const containerId = `math-${Math.random().toString(36).substring(7)}`;
+---
+
+<span id={containerId} class="math-formula" data-formula={formula} data-display={displayMode}></span>
+
+<script>
+  // KaTeX がロードされたらレンダリング
+  function renderMath() {
+    const elements = document.querySelectorAll('.math-formula[data-formula]');
+    elements.forEach((el) => {
+      const formula = el.getAttribute('data-formula');
+      const displayMode = el.getAttribute('data-display') === 'true';
+      if (formula && window.katex) {
+        window.katex.render(formula, el, {
+          displayMode,
+          throwOnError: false,
+        });
+        el.removeAttribute('data-formula');
+      }
+    });
+  }
+
+  // KaTeX スクリプトを動的にロード
+  if (!window.katex) {
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js';
+    script.onload = renderMath;
+    document.head.appendChild(script);
+  } else {
+    renderMath();
+  }
+</script>
+

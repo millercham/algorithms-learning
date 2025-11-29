@@ -1,0 +1,106 @@
+---
+interface Props {
+	totalSteps: number;
+}
+
+const { totalSteps } = Astro.props;
+---
+
+<div class="step-controller flex flex-col gap-4 p-6 bg-white rounded-lg border border-neutral-200">
+  <div class="flex items-center justify-between">
+    <span class="text-neutral-600">
+      ステップ: <span id="current-step" class="text-blue-600">0</span> / <span id="total-steps">{totalSteps}</span>
+    </span>
+    <div class="flex gap-2">
+      <!-- リセット -->
+      <button
+        id="btn-reset"
+        disabled
+        class="px-4 py-2 bg-neutral-100 hover:bg-neutral-200 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg transition-colors flex items-center gap-2"
+        aria-label="リセット"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+          <path d="M3 3v5h5"></path>
+        </svg>
+        リセット
+      </button>
+
+      <!-- 前へ -->
+      <button
+        id="btn-prev"
+        disabled
+        class="px-4 py-2 bg-neutral-100 hover:bg-neutral-200 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg transition-colors flex items-center gap-2"
+        aria-label="前へ"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="19 20 9 12 19 4 19 20"></polygon>
+          <line x1="5" y1="19" x2="5" y2="5"></line>
+        </svg>
+        前へ
+      </button>
+
+      <!-- 再生/一時停止 -->
+      <button
+        id="btn-play"
+        class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white disabled:opacity-50 disabled:cursor-not-allowed rounded-lg transition-colors flex items-center gap-2"
+        aria-label="再生"
+      >
+        <svg id="icon-play" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="5 3 19 12 5 21 5 3"></polygon>
+        </svg>
+        <svg id="icon-pause" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="6" y="4" width="4" height="16"></rect>
+          <rect x="14" y="4" width="4" height="16"></rect>
+        </svg>
+        <span id="btn-play-text">再生</span>
+      </button>
+
+      <!-- 次へ -->
+      <button
+        id="btn-next"
+        class="px-4 py-2 bg-neutral-100 hover:bg-neutral-200 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg transition-colors flex items-center gap-2"
+        aria-label="次へ"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="5 4 15 12 5 20 5 4"></polygon>
+          <line x1="19" y1="5" x2="19" y2="19"></line>
+        </svg>
+        次へ
+      </button>
+    </div>
+  </div>
+
+  <!-- プログレスバー -->
+  <div class="relative w-full h-2 bg-neutral-200 rounded-full overflow-hidden">
+    <div
+      id="progress-fill"
+      class="absolute left-0 top-0 h-full bg-blue-600 transition-all duration-300"
+      style="width: 0%"
+    ></div>
+  </div>
+</div>
+
+<!-- ステップ情報表示 -->
+<div id="step-info" class="hidden p-6 bg-white rounded-xl border-2 border-blue-200 shadow-sm mt-4">
+  <div class="flex items-center justify-between">
+    <div>
+      <p class="text-sm text-neutral-500 mb-1">現在のステップ</p>
+      <p class="text-xl text-neutral-800">
+        インデックス <span id="info-index" class="text-blue-600 font-mono">0</span> をチェック中
+      </p>
+      <p class="text-lg text-neutral-600 mt-2">
+        値 = <span id="info-value" class="font-mono text-neutral-800">0</span>
+      </p>
+    </div>
+    <div id="info-result" class="px-6 py-3 bg-neutral-100 text-neutral-600 rounded-lg">
+      一致しません
+    </div>
+  </div>
+</div>
+
+<!-- 探索完了メッセージ -->
+<div id="result-message" class="hidden p-6 rounded-xl border-2 mt-4">
+  <p id="result-text" class="text-xl"></p>
+</div>
+

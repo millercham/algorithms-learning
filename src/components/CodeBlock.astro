@@ -1,0 +1,21 @@
+---
+interface Props {
+	code: string;
+	language?: string;
+	title?: string;
+}
+
+const { code, language = "typescript", title } = Astro.props;
+---
+
+<div class="code-block">
+  {title && (
+    <div class="bg-neutral-800 text-neutral-300 text-sm px-4 py-2 rounded-t-lg border-b border-neutral-700">
+      {title}
+    </div>
+  )}
+  <div class="bg-neutral-900 rounded-lg overflow-x-auto" class:list={[{ 'rounded-t-none': title }]}>
+    <pre class="p-4 text-sm text-neutral-100"><code class={`language-${language}`} set:html={code} /></pre>
+  </div>
+</div>
+

@@ -1,0 +1,58 @@
+---
+interface Props {
+	title: string;
+	description?: string;
+}
+
+const {
+	title,
+	description = "アルゴリズムの動きを視覚で理解できる学習サイト",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title} | アルゴリズム可視化</title>
+    
+    <!-- KaTeX CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+  </head>
+  <body class="min-h-screen bg-white text-neutral-800">
+    <header class="border-b border-neutral-200 bg-white">
+      <div class="container mx-auto px-4 py-4">
+        <nav class="flex items-center justify-between">
+          <a href="/" class="text-xl font-bold text-blue-600">
+            アルゴリズム可視化
+          </a>
+          <ul class="flex gap-6">
+            <li>
+              <a href="/algorithms/linear-search" class="text-neutral-600 hover:text-blue-600 transition-colors">
+                線形探索
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer class="border-t border-neutral-200 bg-neutral-50 mt-16">
+      <div class="container mx-auto px-4 py-8 text-center text-neutral-500 text-sm">
+        <p>© 2025 アルゴリズム可視化サイト</p>
+      </div>
+    </footer>
+  </body>
+</html>
+
+<style is:global>
+  @import '../styles/global.css';
+</style>
+

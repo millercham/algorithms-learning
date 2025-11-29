@@ -54,7 +54,10 @@
 ## 次のステップ
 
 - [x] 仕様の品質検証完了
-- [ ] `/speckit.clarify` で要件の詳細化（必要に応じて）
-- [ ] `/speckit.plan` で技術計画の策定
+- [x] `/speckit.clarify` で要件の詳細化（完了）
+- [x] `/speckit.plan` で技術計画の策定（完了）
+- [x] `/speckit.tasks` でタスク分解（完了）
+- [x] `/speckit.analyze` で整合性分析（完了）
+- [ ] `/speckit.implement` で実装（進行中）
 
 

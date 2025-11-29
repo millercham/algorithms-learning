@@ -1,0 +1,176 @@
+---
+import ArrayVisualizer from "../../components/ArrayVisualizer.astro";
+import Layout from "../../components/Layout.astro";
+import StepController from "../../components/StepController.astro";
+
+// 初期データ
+const initialArray = [23, 45, 12, 78, 34, 56, 89, 23, 67];
+const initialTarget = 34;
+
+// ページ情報
+const title = "線形探索 (Linear Search)";
+const description =
+	"配列の先頭から順番に目標値を探すシンプルなアルゴリズムを視覚的に学べます。";
+---
+
+<Layout title={title} description={description}>
+  <div class="container mx-auto px-4 py-8 max-w-5xl">
+    <!-- Introduction -->
+    <section id="introduction" class="mb-12">
+      <h1 class="text-4xl font-bold text-neutral-800 mb-4">{title}</h1>
+      <p class="text-xl text-neutral-600 mb-6">
+        配列の先頭から順番に目標値を探すシンプルなアルゴリズム
+      </p>
+
+      <div class="bg-blue-50 border border-blue-200 rounded-lg p-6">
+        <h2 class="text-lg font-semibold text-blue-800 mb-3">このアルゴリズムについて</h2>
+        <ul class="space-y-2 text-blue-700">
+          <li>• <strong>目的</strong>: 配列から目標値を見つける</li>
+          <li>• <strong>入力</strong>: 配列 [23, 45, 12, 78, 34, ...] と目標値 34</li>
+          <li>• <strong>出力</strong>: 見つかった位置（インデックス）または「見つからない」</li>
+          <li>• <strong>使用場面</strong>: 小さな配列やソートされていないデータの探索</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Visualization -->
+    <section id="visualization" class="mb-12">
+      <h2 class="text-2xl font-bold text-neutral-800 mb-6">可視化</h2>
+
+      <ArrayVisualizer array={initialArray} target={initialTarget} />
+
+      <div class="mt-8">
+        <StepController totalSteps={initialArray.length} />
+      </div>
+    </section>
+
+    <!-- Algorithm Flow -->
+    <section id="algorithm-flow" class="mb-12">
+      <h2 class="text-2xl font-bold text-neutral-800 mb-6">アルゴリズムの流れ</h2>
+
+      <div class="space-y-4">
+        <div class="flex items-start gap-4 p-4 bg-neutral-50 rounded-lg border border-neutral-200">
+          <div class="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">
+            1
+          </div>
+          <div>
+            <h3 class="font-semibold text-neutral-800">配列の先頭から開始</h3>
+            <p class="text-neutral-600">インデックス 0 の要素から探索を始めます。</p>
+          </div>
+        </div>
+
+        <div class="flex items-start gap-4 p-4 bg-neutral-50 rounded-lg border border-neutral-200">
+          <div class="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">
+            2
+          </div>
+          <div>
+            <h3 class="font-semibold text-neutral-800">現在の要素と目標値を比較</h3>
+            <p class="text-neutral-600">一致すれば探索成功、一致しなければ次のステップへ。</p>
+          </div>
+        </div>
+
+        <div class="flex items-start gap-4 p-4 bg-neutral-50 rounded-lg border border-neutral-200">
+          <div class="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">
+            3
+          </div>
+          <div>
+            <h3 class="font-semibold text-neutral-800">次の要素へ移動</h3>
+            <p class="text-neutral-600">インデックスを 1 増やして、次の要素をチェックします。</p>
+          </div>
+        </div>
+
+        <div class="flex items-start gap-4 p-4 bg-neutral-50 rounded-lg border border-neutral-200">
+          <div class="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">
+            4
+          </div>
+          <div>
+            <h3 class="font-semibold text-neutral-800">終了条件</h3>
+            <p class="text-neutral-600">目標値が見つかるか、配列の末尾に達したら終了します。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Code -->
+    <section id="code" class="mb-12">
+      <h2 class="text-2xl font-bold text-neutral-800 mb-6">コード</h2>
+
+      <div class="bg-neutral-900 rounded-lg p-6 overflow-x-auto">
+        <pre class="text-sm text-neutral-100"><code class="language-typescript"><span class="text-purple-400">function</span> <span class="text-yellow-300">linearSearch</span>(<span class="text-orange-300">array</span>: <span class="text-blue-300">number[]</span>, <span class="text-orange-300">target</span>: <span class="text-blue-300">number</span>): <span class="text-blue-300">number</span> {'{'}
+  <span class="text-purple-400">for</span> (<span class="text-purple-400">let</span> <span class="text-orange-300">i</span> = <span class="text-green-300">0</span>; <span class="text-orange-300">i</span> {'<'} <span class="text-orange-300">array</span>.<span class="text-blue-300">length</span>; <span class="text-orange-300">i</span>++) {'{'}
+    <span class="text-purple-400">if</span> (<span class="text-orange-300">array</span>[<span class="text-orange-300">i</span>] === <span class="text-orange-300">target</span>) {'{'}
+      <span class="text-purple-400">return</span> <span class="text-orange-300">i</span>;  <span class="text-neutral-500">// 発見: インデックスを返す</span>
+    {'}'}
+  {'}'}
+  <span class="text-purple-400">return</span> -<span class="text-green-300">1</span>;  <span class="text-neutral-500">// 見つからない場合</span>
+{'}'}</code></pre>
+      </div>
+    </section>
+
+    <!-- Math -->
+    <section id="math" class="mb-12">
+      <h2 class="text-2xl font-bold text-neutral-800 mb-6">数学的補足</h2>
+
+      <details class="bg-neutral-50 border border-neutral-200 rounded-lg">
+        <summary class="cursor-pointer p-4 font-semibold text-neutral-800 hover:bg-neutral-100 transition-colors">
+          計算量と特性を見る
+        </summary>
+        <div class="p-6 border-t border-neutral-200 space-y-4">
+          <div>
+            <h3 class="font-semibold text-neutral-800 mb-2">時間計算量</h3>
+            <ul class="space-y-1 text-neutral-600">
+              <li>• <strong>最良ケース</strong>: O(1) — 目標値が配列の先頭にある場合</li>
+              <li>• <strong>最悪ケース</strong>: O(n) — 目標値が配列の末尾または存在しない場合</li>
+              <li>• <strong>平均ケース</strong>: O(n/2) ≈ O(n)</li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 class="font-semibold text-neutral-800 mb-2">空間計算量</h3>
+            <p class="text-neutral-600">O(1) — 追加のメモリは不要</p>
+          </div>
+
+          <div>
+            <h3 class="font-semibold text-neutral-800 mb-2">特徴</h3>
+            <ul class="space-y-1 text-neutral-600">
+              <li>• ソートされていない配列でも動作する</li>
+              <li>• 実装がシンプルで理解しやすい</li>
+              <li>• 小さな配列では効率的</li>
+              <li>• 大きな配列では二分探索より遅い</li>
+            </ul>
+          </div>
+        </div>
+      </details>
+    </section>
+
+    <!-- Playground Link -->
+    <section id="playground-link" class="mb-12">
+      <div class="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-lg p-6 text-center">
+        <h2 class="text-xl font-bold text-blue-800 mb-2">もっと試してみよう</h2>
+        <p class="text-blue-600 mb-4">
+          自分で配列と目標値を入力して、線形探索を体験できます。
+        </p>
+        <a
+          href="/playground/linear-search"
+          class="inline-block px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors"
+        >
+          Playground を開く →
+        </a>
+      </div>
+    </section>
+  </div>
+</Layout>
+
+<script>
+  import { init } from '../../scripts/linear-search-controller';
+
+  // 初期データ
+  const initialArray = [23, 45, 12, 78, 34, 56, 89, 23, 67];
+  const initialTarget = 34;
+
+  // ページロード時に初期化
+  document.addEventListener('DOMContentLoaded', () => {
+    init(initialArray, initialTarget);
+  });
+</script>
+
